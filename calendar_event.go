@@ -1,7 +1,8 @@
 package ical
 
 import (
-	"time"
+  "net/mail"
+  "time"
 )
 
 type CalendarEvent struct {
@@ -14,6 +15,7 @@ type CalendarEvent struct {
 	ModifiedAtUTC *time.Time
 	StartAt       *time.Time
 	EndAt         *time.Time
+	Organizer     *mail.Address
 }
 
 func (this *CalendarEvent) StartAtUTC() *time.Time {

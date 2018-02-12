@@ -61,6 +61,7 @@ func (this *calEventSerializer) serializeEvent() {
 	this.lastModified()
 	this.dtstart()
 	this.dtend()
+	this.organizer()
 	this.summary()
 	this.description()
 	this.location()
@@ -102,6 +103,12 @@ func (this *calEventSerializer) dtstart() {
 
 func (this *calEventSerializer) dtend() {
 	this.serializeTimeProp("DTEND", this.event.EndAtUTC())
+}
+
+func (this *calEventSerializer) organizer() {
+  if this.event.Organizer != nil {
+    this.serializeStringProp("ORGANIZER", "CN="+this.event.Organizer.Name+":mailto:"+this.event.Organizer.Address)
+  }
 }
 
 func (this *calEventSerializer) created() {
