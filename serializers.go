@@ -1,7 +1,8 @@
 package ical
 
 import (
-	"strings"
+  "strconv"
+  "strings"
 	"time"
 )
 
@@ -62,6 +63,7 @@ func (this *calEventSerializer) serializeEvent() {
 	this.dtstart()
 	this.dtend()
 	this.organizer()
+	this.attendee()
 	this.summary()
 	this.description()
 	this.location()
@@ -107,7 +109,15 @@ func (this *calEventSerializer) dtend() {
 
 func (this *calEventSerializer) organizer() {
   if this.event.Organizer != nil {
-    this.serializeStringProp("ORGANIZER", "CN="+this.event.Organizer.Name+":mailto:"+this.event.Organizer.Address)
+    this.serializeStringProp("ORGANIZER", "CN="+this.event.Organizer.CN+":mailto:"+this.event.Organizer.Address)
+  }
+}
+
+func (this *calEventSerializer) attendee() {
+  if this.event.Attendees != nil {
+    for _, a := range this.event.Attendees {
+      this.serializeStringProp("ATTENDEE", "RSVP="+strconv.FormatBool(a.RSVP)+";ROLE="+a.ParticipationRole+";CUTYPE="+a.CalenderUserType+":mailto:"+a.Address)
+    }
   }
 }
 

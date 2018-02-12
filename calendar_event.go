@@ -5,6 +5,18 @@ import (
   "time"
 )
 
+type Address struct {
+  CN string
+  Address string
+}
+
+type Attendee struct {
+  RSVP              bool
+  ParticipationRole string
+  CalenderUserType  string
+  Address           string
+}
+
 type CalendarEvent struct {
 	Id            string
 	Summary       string
@@ -15,7 +27,8 @@ type CalendarEvent struct {
 	ModifiedAtUTC *time.Time
 	StartAt       *time.Time
 	EndAt         *time.Time
-	Organizer     *mail.Address
+	Organizer     *Address
+	Attendees     []Attendee
 }
 
 func (this *CalendarEvent) StartAtUTC() *time.Time {
