@@ -1,7 +1,6 @@
 package ical
 
 import (
-  "net/mail"
   "time"
 )
 
@@ -11,10 +10,11 @@ type Address struct {
 }
 
 type Attendee struct {
-  RSVP              bool
-  ParticipationRole string
-  CalenderUserType  string
-  Address           string
+  RSVP                bool
+  ParticipationRole   string
+  CalenderUserType    string
+  ParticipationStatus string
+  Address             string
 }
 
 type CalendarEvent struct {
@@ -29,6 +29,7 @@ type CalendarEvent struct {
 	EndAt         *time.Time
 	Organizer     *Address
 	Attendees     []Attendee
+	Method        string
 }
 
 func (this *CalendarEvent) StartAtUTC() *time.Time {

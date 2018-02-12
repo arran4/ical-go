@@ -56,6 +56,7 @@ func (this *calEventSerializer) serialize() string {
 }
 
 func (this *calEventSerializer) serializeEvent() {
+  this.method()
 	this.begin()
 	this.uid()
 	this.created()
@@ -113,10 +114,16 @@ func (this *calEventSerializer) organizer() {
   }
 }
 
+func (this *calEventSerializer) method() {
+  if len(this.event.Method) > 0 {
+    this.serializeStringProp("METHOD", this.event.Method)
+  }
+}
+
 func (this *calEventSerializer) attendee() {
   if this.event.Attendees != nil {
     for _, a := range this.event.Attendees {
-      this.serializeStringProp("ATTENDEE", "RSVP="+strconv.FormatBool(a.RSVP)+";ROLE="+a.ParticipationRole+";CUTYPE="+a.CalenderUserType+":mailto:"+a.Address)
+      this.serializeStringProp("ATTENDEE;RSVP="+strconv.FormatBool(a.RSVP)+";ROLE="+a.ParticipationRole+";CUTYPE="+a.CalenderUserType+";PARTSTAT="+a.ParticipationStatus, "mailto:"+a.Address)
     }
   }
 }
